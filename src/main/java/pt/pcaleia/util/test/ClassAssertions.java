@@ -119,11 +119,12 @@ public final class ClassAssertions {
 				}
 			};
 			
-			boolean wasThrown = false;
+			boolean wasThrown;
 			try {
 				executable.execute();
 				
 				// If it reached here then the constructor didn't throw anything
+				wasThrown = false;
 			}
 			catch( AssertionError ae ) {
 				wasThrown = true;
