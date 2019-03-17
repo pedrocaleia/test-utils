@@ -34,9 +34,9 @@ public final class ClassAssertions {
 	
 	
 	/**
-	 * Assert that the given class is final.
+	 * Assert that a given class is final.
 	 * 
-	 * @param clazz
+	 * @param clazz The class to test.
 	 * @throws NullPointerException When the clazz argument is null.
 	 */
 	public static void assertFinal( Class<?> clazz ) {
@@ -51,9 +51,9 @@ public final class ClassAssertions {
 	
 	
 	/**
-	 * Assert that the given class doesn't extend from any other class other than Object.
+	 * Assert that a given class doesn't extend from any other class other than Object.
 	 * 
-	 * @param clazz
+	 * @param clazz The class to test.
 	 * @throws NullPointerException When the clazz argument is null.
 	 */
 	public static void assertNoSuperclass( Class<?> clazz ) {
@@ -65,9 +65,9 @@ public final class ClassAssertions {
 	
 	
 	/**
-	 * Assert that the given class doesn't implement any interfaces.
+	 * Assert that a given class doesn't implement any interfaces.
 	 * 
-	 * @param clazz
+	 * @param clazz The class to test.
 	 * @throws NullPointerException When the clazz argument is null.
 	 */
 	public static void assertNoInterfaces( Class<?> clazz ) {
@@ -78,6 +78,12 @@ public final class ClassAssertions {
 	}
 	
 	
+	/**
+	 * Assert that a given class is an utility class.
+	 * 
+	 * @param clazz The class to test.
+	 * @throws NullPointerException When the clazz argument is null.
+	 */
 	public static void assertUtilityClass( Class<?> clazz ) {
 		assertFinal( clazz );
 		assertNoSuperclass( clazz );
