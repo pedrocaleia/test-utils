@@ -1,0 +1,57 @@
+apply plugin: "maven-publish"
+
+
+task sourcesJar( type: Jar, dependsOn: classes ) {
+	from sourceSets.main.allJava;
+	classifier "sources";
+}
+
+
+task javadocJar( type: Jar, dependsOn: javadoc ) {
+	from javadoc;
+	classifier = "javadoc";
+}
+
+
+artifacts {
+	version = System.getenv( "TRAVIS_TAG" );
+	archives sourcesJar;
+	archives javadocJar;
+}
+
+
+publishing {
+	publications {
+		BintrayPublication( MavenPublication ) {
+			from components.java;
+			
+			afterEvaluate {
+				groupId = "pt.pcaleia";
+				artifactId = "argument-assertions";
+				version = System.getenv( "TRAVIS_TAG" );
+			}
+			
+			artifact sourcesJar;
+			artifact javadocJar;
+		}
+	}
+}
+
+
+bintray {
+	user = System.getenv( "BINTRAY_USER" );
+	key = System.getenv( "BINTRAY_KEY" );
+	
+	pkg {
+		repo = "maven";
+		name = "argument-assertions";
+		
+		version {
+			name = System.getenv( "TRAVIS_TAG" );
+		}
+	}
+	
+	publications = [ "BintrayPublication" ];
+	
+	publish = true;
+}
