@@ -21,8 +21,8 @@ jacocoTestCoverageVerification {
 jacocoTestReport {
 	reports {
 		xml.enabled = true;
-		xml.destination = file( jacocoXmlDestinationProperty );
+		xml.destination = file( "$project.buildDir" +  jacocoXmlDestinationProperty );
 		html.enabled = true;
-		html.destination = file( jacocoHtmlDestinationProperty );
+		html.destination = file( "$project.buildDir" + jacocoHtmlDestinationProperty );
 	}
 }
