@@ -1,0 +1,56 @@
+language: java
+
+jdk: oraclejdk11
+
+# Make the gradle wrapper executable
+before_install:
+  - chmod +x gradlew
+
+# Assemble project
+install:
+  - ./gradlew assemble
+
+# Run tests and verify test coverage
+script:
+  - ./gradlew check jacocoTestCoverageVerification
+
+# Recommended by https://docs.travis-ci.com/user/languages/java/#caching
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+# Recommended by https://docs.travis-ci.com/user/languages/java/#caching
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+# Generate test coverage and upload to coveralls
+after_success:
+  - ./gradlew jacocoTestReport coveralls
+
+# Deploy artifacts
+deploy:
+  # Deploy to github releases
+  - provider: releases
+    # Disable the cleaning of files made during the build
+    skip_cleanup: true
+    # Generated and encrypted with command "travis setup releases --com"
+    api_key:
+      secure: WM3+TlahXjVNhylnssmORn2rSB/4XCvRqdypJS+1uLeAHdvGfUmFcCezLLCJ7ZasxGuEYMToMGQs3u/zyVYw77dcSQGTWKphZu+velfGvGY7YC9Og2p+RmTpsWKnqvq5SPEIK3NCpvI6+dMBkhAMncCSCCJ9oCl+xRv1Prbt/iGruupe+aTGi3xycKuT85yqVOmMNwHN5ZMlch3UsfVuZcjVk1upiJuaSWWLaz9TAco5BOvMvV+DN+tIJb9H366Lov3q+pXXPgz2crBKbuSYznFdXOlAlZ8g4ZNzS6EnQcU9V2FNmSQJtIVu21sa97OXoxIAIMFlBenEdTe/ziaaW7mVcjSRFDeLbFsnUcwXDXaEpoMcWHrZp3JiEVs3pfLZldDkmrpp/aCEtaAyk6DlKHNju5MY0igJ0TBZSD90hEqpodPA5Ye1T3L3b3CTZmq24tq5g/HcyH2C4GBiiTvv7BAys+ALWKOBolCmk2B7MBOyfmlM4w1oDc7tMj3f0LFk3G66TLTzBZYPyeZtxtxzNRWu+/Y3bDkcL0qLDQeTmnyqJgsrBgn6Bxzcejkv5qHMne1TiKVTW3hlqdRKKG6krPd2x8hYb40z1YsBbGMuxoj2mLMUiuewHw7cX3fFhbnCf7Zj/21fOBah9dR83gq1BKYkRjy4BVUcobMqkcld+4I=
+    # Enable wildcards
+    file_glob: true
+    # File to upload
+    file: "build/libs/*.jar"
+    # Only upload when there is a tag present
+    on:
+      tags: true
+  # Deploy bintray
+  - provider: script
+    # Disable the cleaning of files made during the build
+    skip_cleanup: true
+    # Gradle task to use for upload
+    script: ./gradlew bintrayUpload
+    # Only upload when there is a tag present
+    on:
+      tags: true
