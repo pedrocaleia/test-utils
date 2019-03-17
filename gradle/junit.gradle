@@ -1,7 +1,7 @@
 dependencies {
-	testCompileOnly   group: "org.junit.jupiter",   name: "junit-jupiter-api",      version: "5.4.0";
+	testCompileOnly   group: "org.junit.jupiter",   name: "junit-jupiter-api",      version: junitVersionProperty;
 	
-	testRuntimeOnly   group: "org.junit.jupiter",   name: "junit-jupiter-engine",   version: "5.4.0";
+	testRuntimeOnly   group: "org.junit.jupiter",   name: "junit-jupiter-engine",   version: junitVersionProperty;
 }
 
 

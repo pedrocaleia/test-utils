@@ -26,8 +26,8 @@ publishing {
 			from components.java;
 			
 			afterEvaluate {
-				groupId = "pt.pcaleia";
-				artifactId = "test-utils";
+				groupId = bintrayGroupIdProperty;
+				artifactId = bintrayArtifactIdProperty;
 				version = System.getenv( "TRAVIS_TAG" );
 			}
 			
@@ -43,8 +43,8 @@ bintray {
 	key = System.getenv( "BINTRAY_KEY" );
 	
 	pkg {
-		repo = "maven";
-		name = "test-utils";
+		repo = bintrayRepoTypeProperty;
+		name = bintrayPackageNameProperty;
 		
 		version {
 			name = System.getenv( "TRAVIS_TAG" );

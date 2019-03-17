@@ -2,7 +2,7 @@ apply plugin: "jacoco"
 
 
 jacoco {
-	toolVersion = "0.8.3";
+	toolVersion = jacocoToolVersionProperty;
 }
 
 
@@ -11,7 +11,7 @@ jacocoTestCoverageVerification {
 		rule {
 			limit {
 				// Minimum test coverage required
-				minimum = 0.9;
+				minimum = new BigDecimal( jacocoMinimumTestCoverageProperty );
 			}
 		}
 	}
@@ -21,8 +21,8 @@ jacocoTestCoverageVerification {
 jacocoTestReport {
 	reports {
 		xml.enabled = true;
-		xml.destination = file( "$buildDir/reports/jacoco/xml/jacoco_test_report.xml" );
+		xml.destination = file( jacocoXmlDestinationProperty );
 		html.enabled = true;
-		html.destination = file( "$buildDir/reports/jacoco/html" );
+		html.destination = file( jacocoHtmlDestinationProperty );
 	}
 }
